@@ -82,3 +82,8 @@ justify-content: space-between;
 .humidity p, .wind p{
     margin: 0px;
 }
+.error{
+    color: rgb(240, 137, 137);
+    text-align: left;
+    margin-right: 10px;
+}

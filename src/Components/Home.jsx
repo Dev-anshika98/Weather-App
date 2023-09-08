@@ -13,20 +13,30 @@ const Home =()=>{
         name: 'London',
         humidity: 10,
         speed: 2,
+       
 
-       }
-    )
+       })
+
+    
     const[name, setName] = useState('');
+    const[error, setError] = useState('');
   
     const handleClick =() =>{
         if(name !==""){
             const apiUrl =`https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=d76875f03d80f29cff30bd5b3313e8fd&units=metric`;
             axios.get(apiUrl)
             .then(res=>{
-                console.log(res.da)
                 setData({...data, celcius: res.data.main.temp, name: res.data.name, humidity: res.data.main.humidity, speed: res.data.wind.speed})
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                if(err.reponse.status == 404){
+                    setError("Invalid City Name")
+                }else{
+                    setError('');
+                }
+
+                console.log(err)
+            });
 
         }
     }
@@ -37,6 +47,9 @@ const Home =()=>{
                 <div className="search">
                     <input type="text" placeholder=" Enter city name" onChange={e=> setName(e.target.value)} />
                     <button><img src={Search} onClick={handleClick} alt="" /></button>
+                </div>
+                <div className="error">
+                    <p>{error}</p>
                 </div>
                 <div className="winfo">
                     <img src={Weather} alt="" className="icon"/>

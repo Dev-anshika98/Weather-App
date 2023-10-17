@@ -51,7 +51,7 @@ const Home =()=>{
                 <div className="error">
                     <p>{error}</p>
                 </div>
-                <div className="winfo">
+                <div className="winfo ">
                     <img src={Weather} alt="" className="icon"/>
                     <h1>{Math.round(data.celcius)}°c</h1>
                     <h2>{data.name}</h2>

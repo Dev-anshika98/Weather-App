@@ -5,6 +5,8 @@ import Search from '../assets/search2.png'
 import Weather from '../assets/Weather2.png'
 import Humidity from '../assets/Humidity.png'
 import Wind from '../assets/wind.png'
+
+
 import './style.css'
 const Home =()=>{
     const[data, setData] = useState(
@@ -13,6 +15,7 @@ const Home =()=>{
         name: 'London',
         humidity: 10,
         speed: 2,
+        image:'../assets/clouds.png'
        
 
        })
@@ -26,7 +29,29 @@ const Home =()=>{
             const apiUrl =`https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=d76875f03d80f29cff30bd5b3313e8fd&units=metric`;
             axios.get(apiUrl)
             .then(res=>{
-                setData({...data, celcius: res.data.main.temp, name: res.data.name, humidity: res.data.main.humidity, speed: res.data.wind.speed})
+              let imagePath = ' ';
+              if(res.data.weather[0].main == "Clouds"){
+                imagePath = "../assests/clouds.png"
+              }
+              else if(res.data.weather[0].main == "Clear"){
+                imagePath = "../assets/clear.png"
+              }
+              else if(res.data.weather[0].main == "Rain"){
+                imagePath = "../assets/rain.png"
+              }
+              else if(res.data.weather[0].main == "Drizzle"){
+                imagePath = "../assets/drizzle.png"
+              }
+              else if(res.data.weather[0].main == "Mist"){
+                imagePath = "../assets/mist.png"
+              }
+              else {
+                imagePath = "../assets/clouds.png"
+              }
+
+              console.log(res.data);
+                setData({...data, celcius: res.data.main.temp, name: res.data.name, humidity: res.data.main.humidity, speed: res.data.wind.speed, image:imagePath})
+
             })
             .catch(err => {
                 if(err.reponse.status == 404){
@@ -37,6 +62,8 @@ const Home =()=>{
 
                 console.log(err)
             });
+
+         
 
         }
     }
@@ -51,7 +78,7 @@ const Home =()=>{
                 <div className="error">
                     <p>{error}</p>
                 </div>
-                <div className="winfo ">
+                <div className="winfo">
                     <img src={Weather} alt="" className="icon"/>
                     <h1>{Math.round(data.celcius)}°c</h1>
                     <h2>{data.name}</h2>
